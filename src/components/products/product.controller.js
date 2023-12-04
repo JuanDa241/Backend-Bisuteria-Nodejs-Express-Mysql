@@ -47,8 +47,9 @@ const getProduct = (req,res) =>{
 const createProduct = (req,res) =>{
     const { nameProduct, price, laborPrice, image, idCategory } = req.body
     const table = 'products'
+    const condicion = 'idProduct'
 
-    ids(table, (idProduct, err) =>{
+    ids(table, condicion, (idProduct, err) =>{
         if(err){
             console.log({data: `error id: ${err}`})
         }
