@@ -13,7 +13,7 @@ const productStorage = multer.diskStorage({
         cb(null, productUploadDirectory);
     },
     filename: function(req,file,cb) {
-        cb(null, Date.now() + 'IRis');
+        cb(null, Date.now() + 'IRis'+ file.originalname);
     }
 });
 
@@ -28,7 +28,7 @@ const workerStorage = multer.diskStorage({
         cb(null, workerUploadDirectory)
     },
     filename: function(req,file,cb) {
-        cb(null, Date.nowI() + 'IRisWorker')
+        cb(null, Date.nowI() + 'IRisWorker'+ file.originalname)
     }
 });
 
