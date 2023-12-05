@@ -45,7 +45,9 @@ const getProduct = (req,res) =>{
 
 //Insertar un registro
 const createProduct = (req,res) =>{
-    const { nameProduct, price, laborPrice, image, idCategory } = req.body
+    const { nameProduct, price, laborPrice, idCategory } = req.body
+    const image = req.file ? req.file.path : null
+
     const table = 'products'
     const condicion = 'idProduct'
 
