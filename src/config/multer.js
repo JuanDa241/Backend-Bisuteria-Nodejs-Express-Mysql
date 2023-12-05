@@ -13,7 +13,7 @@ const productStorage = multer.diskStorage({
         cb(null, productUploadDirectory);
     },
     filename: function(req,file,cb) {
-        cb(null, Date.now() + 'IRis'+ file.originalname);
+        cb(null, `${Date.now()}IRis.${file.mimetype.split('/')[1]}`);
     }
 });
 
@@ -28,7 +28,7 @@ const workerStorage = multer.diskStorage({
         cb(null, workerUploadDirectory)
     },
     filename: function(req,file,cb) {
-        cb(null, Date.nowI() + 'IRisWorker'+ file.originalname)
+        cb(null, `${Date.now()}IRis.${file.mimetype.split('/')[1]}`)
     }
 });
 
