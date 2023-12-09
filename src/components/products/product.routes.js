@@ -4,10 +4,10 @@ const { getAllProduct, getProduct ,createProduct, updateProduct ,deleteProduct }
 const { productUpload } = require('../../config/multer')
 
 router
-        .get('/products', getAllProduct)
-        .get('/products/:idProduct', getProduct)
-        .post('/products', productUpload.single('image'),createProduct)
-        .put('/products/:idProduct', updateProduct)
-        .delete('/products/:idProduct', deleteProduct)
+        .get('/productos', getAllProduct)
+        .get('/productos/:idProducto', getProduct)
+        .post('/productos', productUpload.single('image'),createProduct)
+        .put('/productos/:idProducto', updateProduct)
+        .delete('/productos/:idProducto', deleteProduct)
 
 module.exports = router
