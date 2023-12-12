@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllProduct, getProduct ,createProduct, updateProduct ,deleteProduct ,bancostodos } = require('./product.controller')
+const { getAllProduct, getProduct ,createProduct, updateProduct ,deleteProduct } = require('./product.controller')
 const { productUpload } = require('../../config/multer')
 
 router
@@ -9,7 +9,5 @@ router
         .post('/productos', productUpload.single('image'),createProduct)
         .put('/productos/:idProducto', updateProduct)
         .delete('/productos/:idProducto', deleteProduct)
-
-        .get('/banco', bancostodos)
 
 module.exports = router

@@ -22,9 +22,11 @@ app.use(json())
 
 //Controllers
 const products = require('./components/products/product.routes')
+const prueba = require('./components/forms/workers/formWorkers.routes')
 
 //Routes
 app.use('/IRis', products)
+app.use('/IRisPrueba', prueba)
 
 
 module.exports = app
