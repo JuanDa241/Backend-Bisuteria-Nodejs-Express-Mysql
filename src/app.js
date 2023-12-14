@@ -22,9 +22,11 @@ app.use(json())
 
 //Controllers
 const products = require('./components/products/product.routes')
+const worker = require('./components/worker/worker.routes')
 
 //Routes
 app.use('/IRis', products)
+app.use('/IRis', worker)
 
 
 module.exports = app
