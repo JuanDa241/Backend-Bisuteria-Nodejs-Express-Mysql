@@ -1,5 +1,7 @@
 const db = require('../../dataBase/db')
 const { hashPassword, comparePassword  } = require('../../config/bcrypt');
+const jwt = require('../../config/jwt'); // Importa el módulo JWT
+
 
 //Obtener lista de la base de datos
 const getAllworker = (req,res) =>{
@@ -128,37 +130,40 @@ const deleteworker = (req,res) =>{
 
 //Obtener un detalle (iniciar sesión)
 const inicioSesion = async (req, res) => {
-  const { userName, password } = req.body;
-
-  try {
-    let sql = 'SELECT * FROM worker WHERE userName = ?';
-    db.query(sql, userName, async (err, rows, fields) => {
-      if (!err) {
-        if (rows.length < 1) {
-          res.json({ data: 'Usuario no encontrado' });
-        } else {
-          // Comparar la contraseña ingresada con el hash almacenado
-          const storedHashedPassword = rows[0].password;
-          const isPasswordMatch = await comparePassword(password, storedHashedPassword);
-
-          if (isPasswordMatch) {
-            // Contraseña válida, puedes responder de acuerdo a tus necesidades
-            res.json({ data: 'Inicio de sesión exitoso', user: rows[0] });
+    const { userName, password } = req.body;
+  
+    try {
+      let sql = 'SELECT * FROM worker WHERE userName = ?';
+      db.query(sql, userName, async (err, rows) => {
+        if (!err) {
+          if (rows.length < 1) {
+            res.json({ data: 'Usuario no encontrado' });
           } else {
-            // Contraseña inválida
-            res.status(401).json({ error: 'Credenciales incorrectas' });
+            const storedHashedPassword = rows[0].password;
+            const isPasswordMatch = await comparePassword(password, storedHashedPassword);
+  
+            if (isPasswordMatch) {
+              // Contraseña válida, genera un token JWT
+              const idCardWorker = rows[0].idCardWorker; 
+              const idRole = rows[0].idRole;
+              const token = jwt.generateJwtToken(idCardWorker, idRole);
+  
+              // Devuelve el token en la respuesta
+              res.json({ data: 'Inicio de sesión exitoso', token });
+            } else {
+              // Contraseña inválida
+              res.status(401).json({ error: 'Credenciales incorrectas' });
+            }
           }
+        } else {
+          throw err;
         }
-      } else {
-        throw err;
-      }
-    });
-  } catch (err) {
-    console.log({ data: `Internal Server Error: ${err}` });
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
+      });
+    } catch (err) {
+      console.log({ data: `Internal Server Error: ${err}` });
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
 
 module.exports = {
     getAllworker,
