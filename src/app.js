@@ -3,6 +3,7 @@ const path = require('path')
 const cors = require('cors')
 require('dotenv').config();
 const { urlencoded, json } = require('express')
+const bodyParser = require('body-parser');
 
 //Port
 const port = process.env.PORT || 3004

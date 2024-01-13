@@ -6,7 +6,7 @@ const { productUpload } = require('../../config/multer')
 router
         .get('/productos', getAllProduct)
         .get('/productos/:idProducto', getProduct)
-        .post('/productos', productUpload.single('image'),createProduct)
+        .post('/producto', productUpload.single('image'),createProduct)
         .put('/productos/:idProducto', updateProduct)
         .delete('/productos/:idProducto', deleteProduct)
 
