@@ -20,13 +20,20 @@ app.use(cors())
 app.use(urlencoded({extended: true}))
 app.use(json())
 
-//Controllers
-const products = require('./components/products/product.routes')
-const prueba = require('./components/forms/workers/formWorkers.routes')
-
 //Routes
-app.use('/IRis', products)
-app.use('/IRisPrueba', prueba)
+const products = require('./components/products/product.routes')
+const formWorkers = require('./components/forms/workers/formWorkers.routes')
+const formProducts = require('./components/forms/products/formProducts.routes')
+
+
+//Combined Routes
+const combinedRoutes = express.Router()
+combinedRoutes.use('/', products)
+combinedRoutes.use('/', formWorkers)
+combinedRoutes.use('/', formProducts)
+
+//Basic Route
+app.use('/IRis', combinedRoutes)
 
 
 module.exports = app

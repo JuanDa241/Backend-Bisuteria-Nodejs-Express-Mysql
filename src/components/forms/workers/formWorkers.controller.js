@@ -1,6 +1,6 @@
-const db = require('../../../dataBase/db')
+const db = require('../../../dataBase/db');
 
-const bancosTodos = (req,res) =>{
+const allBanks = (req,res) =>{
     try {
         let sql = 'SELECT * FROM bank'
         db.query(sql,(err,rows,field) =>{
@@ -17,9 +17,9 @@ const bancosTodos = (req,res) =>{
     } catch (err) {
         console.log({data: `Internal Server Error: ${err}`})
     }
-}
+};
 
-const rolTodos = (req,res) =>{
+const allRoles = (req,res) =>{
     try {
         let sql = 'SELECT * FROM role WHERE roles IN ("Artesano","Vendedor")'
         db.query(sql,(err,rows,field) =>{
@@ -36,9 +36,9 @@ const rolTodos = (req,res) =>{
     } catch (err) {
         console.log({data: `Internal Server Error: ${err}`})
     }
-}
+};
 
 module.exports = {
-    bancosTodos,
-    rolTodos
+    allBanks,
+    allRoles
 }
