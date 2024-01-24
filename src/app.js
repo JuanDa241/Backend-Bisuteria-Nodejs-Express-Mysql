@@ -11,7 +11,7 @@ const port = process.env.PORT || 3004
 //Server initialization
 const app = express()
 
-app.use('/uploads', express.static('uploads'));
+app.use('/IRis/uploads', express.static('uploads'));
 
 //setting
 app.set('port', port)
@@ -21,13 +21,24 @@ app.use(cors())
 app.use(urlencoded({extended: true}))
 app.use(json())
 
-//Controllers
+//Routes
 const products = require('./components/products/product.routes')
 const worker = require('./components/worker/worker.routes')
+const formWorkers = require('./components/forms/workers/formWorkers.routes')
+const formProducts = require('./components/forms/products/formProducts.routes')
+
+
+//Combined Routes
+const combinedRoutes = express.Router()
+combinedRoutes.use('/', products)
+combinedRoutes.use('/', formWorkers)
+combinedRoutes.use('/', formProducts)
 
 //Routes
 app.use('/IRis', products)
 app.use('/IRis', worker)
+//Basic Route
+app.use('/IRis', combinedRoutes)
 
 
 module.exports = app
