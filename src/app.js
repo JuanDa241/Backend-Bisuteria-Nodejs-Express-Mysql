@@ -10,7 +10,7 @@ const port = process.env.PORT || 3004
 //Server initialization
 const app = express()
 
-app.use('/uploads', express.static('uploads'));
+app.use('/IRis/uploads', express.static('uploads'));
 
 //setting
 app.set('port', port)
