@@ -49,7 +49,7 @@ create table worker(
     workerEmail varchar(100) not null,
     workerPhone varchar(15) not null,
     userName varchar(20) not null unique,
-    password varchar(20) not null,
+    password varchar(300) not null,
     photo varchar(250) not null,
     idRole int not null,
     primary key (idCardWorker),

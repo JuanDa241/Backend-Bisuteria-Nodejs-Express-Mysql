@@ -6,7 +6,7 @@ const { workerUpload } = require('../../config/multer')
 router
         .get('/trabajadores', getAllworker)
         .get('/trabajadores/:idCardWorker', getworker)
-        .post('/trabajadores', workerUpload.single('photo'),createworker)
+        .post('/trabajador', workerUpload.single('photo'),createworker)
         .put('/trabajadores/:idCardWorker', updateworker)
         .delete('/trabajadores/:idCardWorker', deleteworker)
         .post('/login', inicioSesion);

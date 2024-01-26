@@ -48,7 +48,7 @@ const getworker = (req,res) =>{
 //Insertar un registro
 const createworker = async (req, res) => {
     try {
-    const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, idRole } = req.body;
+    const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, idRole, idBank } = req.body;
     const photo = req.file ? req.file.path : null;
 
     // Hashear la contraseña antes de almacenarla en la base de datos
@@ -63,22 +63,24 @@ const createworker = async (req, res) => {
         userName: userName,
         password: hashedPassword, 
         photo: photo,
-        idRole: idRole
+        idRole: idRole,
+        idBank: idBank
     };
 
-    const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, idBank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-    db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole], (err, result) => {
+    db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole, worker.idBank], (err, result) => {
         if (err) {
-        console.log({ data: `error id: ${err}` });
-        res.status(500).json({ error: 'Internal Server Error' });
+            throw err
+        // console.log({ data: `error id: ${err}` });
+        // res.status(500).json({ error: 'Internal Server Error' });
         } else {
         res.json({ data: result });
         }
     });
     } catch (error) {
-    console.log({ data: `Internal Server Error: ${error}` });
-    res.status(500).json({ error: 'Internal Server Error' });
+        console.log({ data: `Internal Server Error: ${error}` });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
@@ -131,7 +133,7 @@ const deleteworker = (req,res) =>{
 //Obtener un detalle (iniciar sesión)
 const inicioSesion = async (req, res) => {
     const { userName, password } = req.body;
-  
+
     try {
       let sql = 'SELECT * FROM worker WHERE userName = ?';
       db.query(sql, userName, async (err, rows) => {

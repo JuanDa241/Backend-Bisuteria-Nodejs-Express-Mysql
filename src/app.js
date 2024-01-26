@@ -31,14 +31,13 @@ const formProducts = require('./components/forms/products/formProducts.routes')
 //Combined Routes
 const combinedRoutes = express.Router()
 combinedRoutes.use('/', products)
+combinedRoutes.use('/', worker)
 combinedRoutes.use('/', formWorkers)
 combinedRoutes.use('/', formProducts)
 
 //Routes
-app.use('/IRis', products)
-app.use('/IRis', worker)
-//Basic Route
 app.use('/IRis', combinedRoutes)
+
 
 
 module.exports = app
