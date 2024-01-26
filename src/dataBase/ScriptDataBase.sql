@@ -43,7 +43,7 @@ insert into bank (banks)
 	values('Bancolombia'),('Daviplata'),('Nequi');
 
 create table worker(
-	idCardWorker int not null unique,
+    idCardWorker int not null unique,
     workerName varchar(50) not null,
     workerLastName varchar(50) not null,
     workerEmail varchar(100) not null,
@@ -52,8 +52,11 @@ create table worker(
     password varchar(300) not null,
     photo varchar(250) not null,
     idRole int not null,
+    idBank int not null,
+    numberBank varchar(15) not null,
     primary key (idCardWorker),
-    foreign key (idRole) references role(idRole)
+    foreign key (idRole) references role(idRole),
+    foreign key (idBank) references bank(idBank)
 );
     
 create table bankAccount(
