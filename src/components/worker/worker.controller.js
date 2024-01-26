@@ -46,7 +46,7 @@ const getworker = (req,res) =>{
 //Insertar un registro
 const createworker = async (req, res) => {
     try {
-    const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, idRole, idBank } = req.body;
+    const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, idRole, numberBank, idBank } = req.body;
     const photo = req.file ? req.file.path : null;
 
     // Hashear la contraseña antes de almacenarla en la base de datos
@@ -62,12 +62,14 @@ const createworker = async (req, res) => {
         password: hashedPassword, 
         photo: photo,
         idRole: idRole,
+        numberBank: numberBank,
         idBank: idBank
+        
     };
 
-    const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, idBank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, numberBank, idBank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-    db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole, worker.idBank], (err, result) => {
+    db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole, worker.numberBank, worker.idBank], (err, result) => {
         if (err) {
             throw err
         // console.log({ data: `error id: ${err}` });
