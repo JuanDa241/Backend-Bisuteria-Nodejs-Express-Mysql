@@ -23,7 +23,7 @@ const getAllworker = (req,res) =>{
 
  //Obtener un detalle
 const getworker = (req,res) =>{
-    const { idCardWorker } = req.body
+    const { idCardWorker } = req.params
 
     try {
         let sql = 'SELECT * FROM worker WHERE idCardWorker = ?'
@@ -64,7 +64,6 @@ const createworker = async (req, res) => {
         idRole: idRole,
         numberBank: numberBank,
         idBank: idBank
-        
     };
 
     const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, numberBank, idBank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -134,4 +133,4 @@ module.exports = {
     createworker,
     updateworker,
     deleteworker
-}
+};
