@@ -7,7 +7,7 @@ router
         .get('/trabajadores', getAllworker)
         .get('/trabajadores/:idCardWorker', getworker)
         .post('/trabajador', workerUpload.single('photo'),createworker)
-        .put('/trabajadores/:idCardWorker', updateworker)
+        .put('/trabajadores/:idCardWorker', workerUpload.single('photo'), updateworker)
         .delete('/trabajadores/:idCardWorker', deleteworker)
 
 module.exports = router

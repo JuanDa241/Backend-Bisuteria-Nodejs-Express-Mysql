@@ -85,11 +85,20 @@ const createworker = async (req, res) => {
 
 //Actualizar un registro
 const updateworker = (req, res) => {
-	const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole } = req.body;
+	const { idCardWorker } = req.params;
+	const { workerName, workerLastName, workerEmail, workerPhone, userName, password, numberBank, idBank } = req.body;
+	const photo = req.file ? req.file.path : null;
 
 	try {
-		const sql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, photo = ?, idRole = ?  WHERE idCardWorker = ?';
-		db.query(sql, [workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole], (err, result) => {
+		const updateSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, numberBank = ?, idBank =? WHERE idCardWorker = ?';
+
+		const updateImageSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, photo = ?, numberBank = ?, idBank = ? WHERE idCardWorker = ?';
+
+		const sql = req.file ? updateImageSql : updateSql;
+
+		const params = req.file ? [workerName, workerLastName,workerEmail, workerPhone, userName, password, photo, numberBank, idBank, idCardWorker] : [workerName, workerLastName,workerEmail, workerPhone, userName, password, numberBank, idBank, idCardWorker]
+
+		db.query(sql, params, (err, result) => {
 			if (err) {
 				throw err;
 			} else {
