@@ -5,9 +5,9 @@ const { productUpload } = require('../../config/multer')
 
 router
         .get('/productos', getAllProduct)
-        .get('/productos/:idProducto', getProduct)
+        .get('/productos/:idProduct', getProduct)
         .post('/producto', productUpload.single('image'),createProduct)
-        .put('/productos/:idProducto', updateProduct)
-        .delete('/productos/:idProducto', deleteProduct)
+        .put('/productos/:idProduct', productUpload.single('image'),updateProduct)
+        .delete('/productos/:idProduct', deleteProduct)
 
 module.exports = router
