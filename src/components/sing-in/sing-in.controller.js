@@ -6,7 +6,7 @@ const inicioSesion = async (req, res) => {
 	const { userName, password } = req.body;
 
 	try {
-		let sql = 'SELECT * FROM worker WHERE userName = ?';
+		let sql = 'SELECT userName, password FROM worker WHERE userName = ?';
 		db.query(sql, userName, async (err, rows) => {
 			if (!err) {
 				if (rows.length < 1) {
