@@ -42,7 +42,7 @@ const infoBienvenida = (req, res) => {
 	const { idCardWorker } = req.params
 
 	try {
-		let sql = 'SELECT workerName, workerLastName, photo FROM worker WHERE idCardWorker = ?'
+		let sql = 'SELECT * FROM worker WHERE idCardWorker = ?'
 		db.query(sql, idCardWorker, (err, rows, field) => {
 			if (!err) {
 				if (rows.length < 1) {
