@@ -43,6 +43,28 @@ const getworker = (req, res) => {
 	}
 };
 
+const profile = async (req,res) => {
+	const { idCardWorker } = req.params
+
+	try {
+		let sql = 'SELECT W.idCardWorker, W.workerName, W.workerLastName, W.userName, W.workerEmail, W.workerPhone, W.photo, W.numberBank ,R.roles, B.banks FROM worker W INNER JOIN role R on W.idRole = R.idRole INNER JOIN bank B ON W.idBank = B.idBank WHERE idCardWorker = ?'
+		
+		db.query(sql, idCardWorker, (err, rows, field) => {
+			if (!err) {
+				if (rows.length < 1) {
+					res.json({ data: `Error no found workers` })
+				} else {
+					res.json({ data: rows })
+				}
+			} else {
+				throw err
+			}
+		})
+	} catch (errQ) {
+		console.log({ data: `Internal Server Error: ${err}` })
+	}
+};
+
 //Insertar un registro
 const createworker = async (req, res) => {
 	try {
@@ -139,6 +161,7 @@ const deleteworker = (req, res) => {
 module.exports = {
 	getAllworker,
 	getworker,
+	profile,
 	createworker,
 	updateworker,
 	deleteworker
