@@ -62,7 +62,7 @@ const createProduct = (req, res) => {
 			laborPrice: laborPrice,
 			image: image,
 			idCategory: idCategory
-		}
+		};
 
 		try {
 			const sql = 'INSERT INTO products(idProduct, nameProduct, price, laborPrice, image, idCategory) VALUES (?,?,?,?,?,?)'
@@ -107,7 +107,7 @@ const updateProduct = (req, res) => {
 		});
 	} catch (error) {
 		console.log({ data: `Internal Server Error: ${error}` });
-	}
+	};
 };
 
 //Eliminar un registro
@@ -129,7 +129,7 @@ const deleteProduct = (req, res) => {
 		});
 	} catch (err) {
 		console.log({ data: `Internal Server Error: ${err}` })
-	}
+	};
 };
 
 module.exports = {
@@ -138,4 +138,4 @@ module.exports = {
 	createProduct,
 	updateProduct,
 	deleteProduct
-}
+};

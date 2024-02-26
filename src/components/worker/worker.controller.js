@@ -43,12 +43,13 @@ const getworker = (req, res) => {
 	}
 };
 
+//Informacion para el perfil de un trabjador en la pantalla de bienvenida
 const profile = async (req,res) => {
 	const { idCardWorker } = req.params
 
 	try {
 		let sql = 'SELECT W.idCardWorker, W.workerName, W.workerLastName, W.userName, W.workerEmail, W.workerPhone, W.photo, W.numberBank ,R.roles, B.banks FROM worker W INNER JOIN role R on W.idRole = R.idRole INNER JOIN bank B ON W.idBank = B.idBank WHERE idCardWorker = ?'
-		
+	
 		db.query(sql, idCardWorker, (err, rows, field) => {
 			if (!err) {
 				if (rows.length < 1) {
@@ -61,6 +62,26 @@ const profile = async (req,res) => {
 			}
 		})
 	} catch (errQ) {
+		console.log({ data: `Internal Server Error: ${err}` })
+	}
+};
+
+//Informacion para listar a todos los trabajadores
+const listWorker = (req, res) => {
+	try {
+		let sql = 'SELECT W.idCardWorker, W.workerName, W.workerLastName, W.photo, W.workerPhone, R.roles FROM worker W INNER JOIN role R on W.idRole = R.idRole'
+		db.query(sql, (err, rows, field) => {
+			if (!err) {
+				if (rows.length < 1) {
+					res.json({ data: `Error no found worker` })
+				} else {
+					res.json({ data: rows })
+				}
+			} else {
+				throw err
+			}
+		})
+	} catch (err) {
 		console.log({ data: `Internal Server Error: ${err}` })
 	}
 };
@@ -162,6 +183,7 @@ module.exports = {
 	getAllworker,
 	getworker,
 	profile,
+	listWorker,
 	createworker,
 	updateworker,
 	deleteworker

@@ -19,6 +19,28 @@ const allCategory = (req,res) =>{
     }
 };
 
+//Filtrar por categoria
+const filterCategory = (req,res) =>{
+    const { idCategory } = req.body
+    try {
+        let sql = 'SELECT * FROM products WHERE idCategory = ?'
+        db.query(sql,idCategory,(err,rows,field) =>{
+            if(!err){
+                if(rows.length < 1){
+                    res.json({data: `Error no found categorys`})
+                } else {
+                    res.json({data: rows})
+                }
+            } else {
+                throw err
+            }
+        })
+    } catch (err) {
+        console.log({data: `Internal Server Error: ${err}`})
+    }
+};
+
 module.exports = {
-    allCategory
+    allCategory,
+    filterCategory
 }
