@@ -12,7 +12,7 @@ const createClient = (req,res) => {
   };
 
   try {
-    const sql = 'INSERT INTO client (idCardClient, clientname, clientAddress, clientPhone ) VALUES (?,?,?,?)'
+    const sql = 'INSERT INTO client (idCardClient, clientname, clientAddress, clientPhone) VALUES (?,?,?,?)';
     db.query(sql, [client.idCardClient,client.clientname, client.clientAddress, client.clientPhone], (err, result) =>{
       if(err){
         throw err
