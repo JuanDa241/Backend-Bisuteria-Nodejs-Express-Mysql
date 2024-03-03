@@ -7,11 +7,7 @@ const getAllProduct = (req, res) => {
 		let sql = 'SELECT * FROM products'
 		db.query(sql, (err, rows, field) => {
 			if (!err) {
-				if (rows.length < 1) {
-					res.json({ data: `Error no found products` })
-				} else {
-					res.json({ data: rows })
-				}
+				res.json({ data: rows })
 			} else {
 				throw err
 			}

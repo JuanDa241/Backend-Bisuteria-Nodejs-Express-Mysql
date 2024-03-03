@@ -7,7 +7,7 @@ const worker = require('./components/worker/worker.routes')
 const client = require('./components/forms/buyer/buyer.routes')
 const formWorkers = require('./components/forms/workers/formWorkers.routes')
 const formProducts = require('./components/forms/products/formProducts.routes')
-
+const orders = require('./components/orders/order.routes')
 
 //Combined Routes
 const combinedRoutes = express.Router()
@@ -17,5 +17,6 @@ combinedRoutes.use('/', worker)
 combinedRoutes.use('/', client)
 combinedRoutes.use('/', formWorkers)
 combinedRoutes.use('/', formProducts)
+combinedRoutes.use('/', orders)
 
 module.exports = combinedRoutes

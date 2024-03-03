@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router()
-const { createClient } = require("./buyer.controller");
+const { createClient, getClient, updateClient } = require("./buyer.controller");
 
 
 
 router
         .post('/cliente', createClient)
+        .get('/cliente/:idCardClient', getClient)
+        .put('/cliente/:idCardClient', updateClient)
 
 
 
