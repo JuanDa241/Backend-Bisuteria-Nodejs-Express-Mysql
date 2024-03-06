@@ -7,11 +7,7 @@ const getAllworker = (req, res) => {
 		let sql = 'SELECT * FROM worker'
 		db.query(sql, (err, rows, field) => {
 			if (!err) {
-				if (rows.length < 1) {
-					res.json({ data: `Error no found worker` })
-				} else {
 					res.json({ data: rows })
-				}
 			} else {
 				throw err
 			}
