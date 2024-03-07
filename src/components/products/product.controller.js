@@ -1,10 +1,26 @@
 const db = require('../../dataBase/db')
 const ids = require('../../config/ids')
 
-//Obtener lista de la base de datos
-const getAllProduct = (req, res) => {
+//Obtener todos los productos activos
+const activeProduct = (req, res) => {
 	try {
-		let sql = 'SELECT * FROM products'
+		let sql = 'SELECT * FROM products WHERE idState = 4'
+		db.query(sql, (err, rows, field) => {
+			if (!err) {
+				res.json({ data: rows })
+			} else {
+				throw err
+			}
+		});
+	} catch (err) {
+		console.log({ data: `Internal Server Error: ${err}` })
+	}
+};
+
+//Obtener todos los productos inactivos
+const inactiveProduct = (req, res) => {
+	try {
+		let sql = 'SELECT * FROM products WHERE idState = 5'
 		db.query(sql, (err, rows, field) => {
 			if (!err) {
 				res.json({ data: rows })
@@ -130,7 +146,8 @@ const deleteProduct = (req, res) => {
 };
 
 module.exports = {
-	getAllProduct,
+	activeProduct,
+	inactiveProduct,
 	getProduct,
 	createProduct,
 	updateProduct,
