@@ -4,7 +4,7 @@ const { hashPassword } = require('../../config/bcrypt');
 //Obtener lista de la base de datos
 const getAllworker = (req, res) => {
 	try {
-		let sql = 'SELECT * FROM worker'
+		let sql = 'SELECT * FROM worker WHERE idState = 4'
 		db.query(sql, (err, rows, field) => {
 			if (!err) {
 					res.json({ data: rows })
