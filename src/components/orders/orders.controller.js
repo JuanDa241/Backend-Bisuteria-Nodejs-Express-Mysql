@@ -1,12 +1,9 @@
 const db = require('../../dataBase/db')
 const ids = require('../../config/ids')
 
-
 //Insertar una orden
 function createOrder(req, res) {
   const { idCardClient, idCardWorker ,  idState } = req.body;
-
-
   const table = 'orders';
   const condicion = 'idOrder';
 

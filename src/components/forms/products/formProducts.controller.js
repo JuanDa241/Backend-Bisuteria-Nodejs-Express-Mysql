@@ -1,5 +1,6 @@
 const db = require('../../../dataBase/db');
 
+//Mostrar todas las categorias
 const allCategory = (req, res) => {
 	try {
 		let sql = 'SELECT * FROM category'
