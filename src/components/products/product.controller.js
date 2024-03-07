@@ -57,12 +57,13 @@ const createProduct = (req, res) => {
 			price: price,
 			laborPrice: laborPrice,
 			image: image,
-			idCategory: idCategory
+			idCategory: idCategory,
+			idState: "4"
 		};
 
 		try {
-			const sql = 'INSERT INTO products(idProduct, nameProduct, price, laborPrice, image, idCategory) VALUES (?,?,?,?,?,?)'
-			db.query(sql, [product.idProduct, product.nameProduct, product.price, product.laborPrice, product.image, product.idCategory], (err, result) => {
+			const sql = 'INSERT INTO products(idProduct, nameProduct, price, laborPrice, image, idCategory, idState) VALUES (?,?,?,?,?,?,?)'
+			db.query(sql, [product.idProduct, product.nameProduct, product.price, product.laborPrice, product.image, product.idCategory, product.idState], (err, result) => {
 				if (err) {
 					throw err
 				} else {

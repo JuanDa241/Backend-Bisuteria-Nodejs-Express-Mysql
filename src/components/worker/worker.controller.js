@@ -102,12 +102,13 @@ const createworker = async (req, res) => {
 			photo: photo,
 			idRole: idRole,
 			numberBank: numberBank,
-			idBank: idBank
+			idBank: idBank,
+			idSate: "4"
 		};
 
-		const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, numberBank, idBank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+		const sql = 'INSERT INTO worker(idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, photo, idRole, numberBank, idBank, idState) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
-		db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole, worker.numberBank, worker.idBank], (err, result) => {
+		db.query(sql, [worker.idCardWorker, worker.workerName, worker.workerLastName, worker.workerEmail, worker.workerPhone, worker.userName, worker.password, worker.photo, worker.idRole, worker.numberBank, worker.idBank, worker.idSate], (err, result) => {
 			if (err) {
 				throw err
 				// console.log({ data: `error id: ${err}` });
