@@ -84,14 +84,14 @@ const updateProduct = (req, res) => {
 
 	try {
 		const updateSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, idCategory = ? WHERE idProduct = ?';
-    
-    const updateImageSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, image = ?, idCategory = ? WHERE idProduct = ?';
 
-    const sql = req.file ? updateImageSql : updateSql;
+		const updateImageSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, image = ?, idCategory = ? WHERE idProduct = ?';
 
-    const params = req.file ? [nameProduct, price, laborPrice, image, idCategory, idProduct] : [nameProduct, price, laborPrice, idCategory, idProduct];
+		const sql = req.file ? updateImageSql : updateSql;
 
-    db.query(sql, params, (err, result) => {
+		const params = req.file ? [nameProduct, price, laborPrice, image, idCategory, idProduct] : [nameProduct, price, laborPrice, idCategory, idProduct];
+
+		db.query(sql, params, (err, result) => {
 			if (err) {
 				throw err;
 			} else {
@@ -100,19 +100,19 @@ const updateProduct = (req, res) => {
 				} else {
 					res.json({ data: `Product with ID ${idProduct} has been updated successfully` });
 				}
-			}	
+			}
 		});
 	} catch (error) {
 		console.log({ data: `Internal Server Error: ${error}` });
 	};
 };
 
-//Eliminar un registro
+//Eliminar un registro (Se va actualizar el estado del producto)
 const deleteProduct = (req, res) => {
 	const { idProduct } = req.params
 
 	try {
-		let sql = 'DELETE FROM products WHERE idProduct = ?'
+		let sql = 'UPDATE products SET idState = 5 WHERE idProduct = ?'
 		db.query(sql, idProduct, (err, result, field) => {
 			if (!err) {
 				if (result.affectedRows === 0) {

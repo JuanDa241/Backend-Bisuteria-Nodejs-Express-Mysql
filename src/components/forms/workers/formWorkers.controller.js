@@ -1,8 +1,9 @@
 const db = require('../../../dataBase/db');
 
+//Mostrar todos los artesanos
 const craftsman = (req, res) => {
 	try {
-		let sql = 'SELECT idCardWorker, workerName, workerLastName, photo FROM worker WHERE idRole = 2'
+		let sql = 'SELECT idCardWorker, workerName, workerLastName, photo FROM worker WHERE idRole = 2 AND idState = 4'
 		db.query(sql, (err, rows, field) => {
 			if (!err) {
 				if (rows.length < 1) {
@@ -19,6 +20,7 @@ const craftsman = (req, res) => {
 	}
 }
 
+//Mostrar todos los bancos
 const allBanks = (req, res) => {
 	try {
 		let sql = 'SELECT * FROM bank'
@@ -38,6 +40,7 @@ const allBanks = (req, res) => {
 	}
 };
 
+//Mostrar solo los roles Artesano y Vendedor
 const allRoles = (req, res) => {
 	try {
 		let sql = 'SELECT * FROM role WHERE roles IN ("Artesano","Vendedor")'

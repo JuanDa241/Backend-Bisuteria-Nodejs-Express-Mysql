@@ -25,7 +25,7 @@ function createClient(req, res) {
   };
 };
 
-//Obtener un client
+//Obtener el detalle de un client
 function getClient(req, res) {
   const { idCardClient } = req.params;
 
@@ -47,7 +47,7 @@ function getClient(req, res) {
   }
 };
 
-//Actualizar un cliente
+//Actualizar informacion de un cliente
 function updateClient(req, res) {
   const { idCardClient } = req.params;
   const { clientname, clientAddress, clientPhone } = req.body;
