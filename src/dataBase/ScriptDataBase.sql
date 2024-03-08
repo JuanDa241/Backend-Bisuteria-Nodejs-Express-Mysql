@@ -13,6 +13,15 @@ create table category (
 insert into category (categorys)
 	values('Pulceras'),('Chokers'),('Anillos'),('Aretas');
     
+create table state(
+	idState int not null auto_increment,
+    states varchar(10) not null,
+    primary key (idState)
+);
+
+insert into state (states)
+	values('Creado'),('En proceso'),('Terminado'),('Activo'),('Inactivo');
+    
 create table products(
 	idProduct varchar(50) not null unique,
     nameProduct varchar(25) not null,
@@ -20,8 +29,10 @@ create table products(
     laborPrice int not null,
     image varchar(250) not null,
     idCategory int not null,
+    idState int not null,
     primary key (idProduct),
-    foreign key (idCategory) references category(idCategory)
+    foreign key (idCategory) references category(idCategory),
+    foreign key (idState) references state(idState)
 );
 
 create table role(
@@ -43,7 +54,7 @@ insert into bank (banks)
 	values('Bancolombia'),('Daviplata'),('Nequi');
 
 create table worker(
-    idCardWorker int not null unique,
+	idCardWorker int not null unique,
     workerName varchar(50) not null,
     workerLastName varchar(50) not null,
     workerEmail varchar(100) not null,
@@ -54,18 +65,11 @@ create table worker(
     idRole int not null,
     idBank int not null,
     numberBank varchar(15) not null,
+    idState int not null,
     primary key (idCardWorker),
     foreign key (idRole) references role(idRole),
-    foreign key (idBank) references bank(idBank)
-);
-    
-create table bankAccount(
-	idCardWorker int not null unique,
-    accountNumber int not null unique,
-    idBank int not null,
-    primary key (idCardWorker),
-    foreign key (idCardWorker) references worker(idCardWorker),
-    foreign key (idBank) references bank(idBank)
+    foreign key (idBank) references bank(idBank),
+	foreign key (idState) references state(idState)
 );
 
 create table client(
@@ -76,24 +80,13 @@ create table client(
     primary key (idCardClient)
 );
 
-create table state(
-	idState int not null auto_increment,
-    states varchar(10) not null,
-    primary key (idState)
-);
-
-insert into state (states)
-	values('Creado'),('En proceso'),('Terminado');
-
 create table orders(
 	idOrder varchar(50) not null unique,
-    idCardClient int not null,
     idCardWorker int not null,
-    orderDate DATE,
-    finishDate date not null,
+    orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total int not null,
     idState int not null,
     primary key (idorder),
-    foreign key (idCardClient) references client(idCardClient),
     foreign key (idCardWorker) references worker(idCardWorker),
     foreign key (idState ) references state(idState)
 );
@@ -110,7 +103,7 @@ create table orderClient(
 create table orderDetail(
 	idOrderDetail int not null auto_increment,
     quantity int not null,
-    total int not null,
+    subTotal int not null,
     idProduct varchar(50) not null,
     idOrder varchar(50) not null,
     primary key (idOrderDetail),
@@ -121,7 +114,7 @@ create table orderDetail(
 create table workList(
 	idWorkList int not null auto_increment,
     listName varchar(50) not null,
-    creationDate date,
+    creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     idCardWorker int not null,
     idState int not null,
     primary key (idWorkList),
@@ -136,5 +129,4 @@ create table listDetail(
     primary key (idListDateil),
     foreign key (idWorkList) references workList(idWorkList),
     foreign key (idProduct) references products(idProduct)
-)
-
+);
