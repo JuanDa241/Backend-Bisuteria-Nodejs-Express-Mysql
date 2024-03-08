@@ -128,7 +128,29 @@ const deleteProduct = (req, res) => {
 	const { idProduct } = req.params
 
 	try {
-		let sql = 'UPDATE products SET idState = 5 WHERE idProduct = ?'
+		let sql = 'UPDATE products SET idState = "5" WHERE idProduct = ?'
+		db.query(sql, idProduct, (err, result, field) => {
+			if (!err) {
+				if (result.affectedRows === 0) {
+					res.json({ data: `Error: Product with ID: ${idProduct} not found` })
+				} else {
+					res.json({ data: result })
+				}
+			} else {
+				throw err
+			}
+		});
+	} catch (err) {
+		console.log({ data: `Internal Server Error: ${err}` })
+	};
+};
+
+//Activar un producto
+const activateProduct = (req, res) => {
+	const { idProduct } = req.params
+
+	try {
+		let sql = 'UPDATE products SET idState = "4" WHERE idProduct = ?'
 		db.query(sql, idProduct, (err, result, field) => {
 			if (!err) {
 				if (result.affectedRows === 0) {
@@ -151,5 +173,6 @@ module.exports = {
 	getProduct,
 	createProduct,
 	updateProduct,
-	deleteProduct
+	deleteProduct,
+	activateProduct
 };

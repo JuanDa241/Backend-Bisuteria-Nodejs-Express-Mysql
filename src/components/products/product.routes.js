@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getProduct ,createProduct, updateProduct ,deleteProduct, activeProduct, inactiveProduct } = require('./product.controller')
+const { getProduct ,createProduct, updateProduct ,deleteProduct, activeProduct, inactiveProduct, activateProduct } = require('./product.controller')
 const { productUpload } = require('../../config/multer')
 
 router
@@ -11,7 +11,7 @@ router
         .post('/producto', productUpload.single('image'),createProduct)
 
         .put('/productos/:idProduct', productUpload.single('image'),updateProduct)
-
-        .delete('/productos/:idProduct', deleteProduct)
+        .put('/productoInactivo/:idProduct', deleteProduct)
+        .put('/productoActivo/:idProduct', activateProduct)
 
 module.exports = router

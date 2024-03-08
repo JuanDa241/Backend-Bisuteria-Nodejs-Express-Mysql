@@ -150,12 +150,34 @@ const updateworker = (req, res) => {
 	}
 };
 
-//Eliminar un registro
-const deleteworker = (req, res) => {
+//Eliminar un trabajador (Inactivar un trabajador)
+const deleteWorker = (req, res) => {
 	const { idCardWorker } = req.params
 
 	try {
-		let sql = 'DELETE FROM worker WHERE idCardWorker = ?'
+		let sql = 'UPDATE worker SET idState = "5" WHERE idCardWorker = ?'
+		db.query(sql, idCardWorker, (err, result, field) => {
+			if (!err) {
+				if (result.affectedRows === 0) {
+					res.json({ data: `Error: worker with ID: ${idCardWorker} not found` })
+				} else {
+					res.json({ data: result })
+				}
+			} else {
+				throw err
+			}
+		})
+	} catch (err) {
+		console.log({ data: `Internal Server Error: ${err}` })
+	}
+};
+
+//Activar un trabajador
+const activateWorker = (req, res) => {
+	const { idCardWorker } = req.params
+
+	try {
+		let sql = 'UPDATE worker SET idState = "4" WHERE idCardWorker = ?'
 		db.query(sql, idCardWorker, (err, result, field) => {
 			if (!err) {
 				if (result.affectedRows === 0) {
@@ -179,5 +201,6 @@ module.exports = {
 	profile,
 	createworker,
 	updateworker,
-	deleteworker
+	deleteWorker,
+	activateWorker
 };

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getworker ,createworker, updateworker ,deleteworker, profile, activeWorker, inactiveWorker } = require('./worker.controller')
+const { getworker ,createworker, updateworker ,deleteWorker, profile, activeWorker, inactiveWorker, activateWorker } = require('./worker.controller')
 const { workerUpload } = require('../../config/multer')
 
 router
@@ -10,7 +10,9 @@ router
         .get('/perfil/:idCardWorker', profile)
 
         .post('/trabajador', workerUpload.single('photo'),createworker)
+
         .put('/trabajadores/:idCardWorker', workerUpload.single('photo'), updateworker)
-        .delete('/trabajadores/:idCardWorker', deleteworker)
+        .put('/trabajadorInactivo/:idCardWorker', deleteWorker)
+        .put('/trabajadorActivo/:idCardWorker', activateWorker)
 
 module.exports = router
