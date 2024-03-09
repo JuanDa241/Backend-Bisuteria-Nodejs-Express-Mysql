@@ -1,3 +1,4 @@
+const { hashPassword } = require('../../config/bcrypt');
 const db = require('../../dataBase/db')
 
 //Clase que controlara todas las peticiones del trabajador
@@ -60,22 +61,44 @@ class WorkerModel {
   };
 
   //Modelo para activar o desactivar un trabajador
-    async activateInactiveWorker(idCardWorker, idState) {
-      return new Promise((resolve, reject) => {
-        const sql = 'UPDATE worker SET idState = ? WHERE idCardWorker =?';
-        db.query(sql, [idState, idCardWorker], (err, result) => {
-          if (err) {
-            reject(err);
+  async activateInactiveWorker(idCardWorker, idState) {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE worker SET idState = ? WHERE idCardWorker =?';
+      db.query(sql, [idState, idCardWorker], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (result.affectedRows === 0) {
+            reject({ message: `No se encontró ningún trabajador con ID: ${idCardWorker}` });
           } else {
-            if (result.affectedRows === 0) {
-              reject({ message: `No se encontró ningún trabajador con ID: ${idCardWorker}` });
-            } else {
-              resolve({ message: `Se ha actualizado el estado del trabajador con ID: ${idCardWorker}` });
-            }
+            resolve({ message: `Se ha actualizado el estado del trabajador con ID: ${idCardWorker}` });
           }
-        });
+        }
       });
-    };
+    });
+  };
+
+  //Modelo para actualizar la informacion de un trabajador
+  async updateWorker(idCardWorker, workerData, photo) {
+    const { workerName, workerLastName, workerEmail, workerPhone, userName, password, numberBank, idBank } = workerData;
+    const hashedPassword = await hashPassword(password);
+
+    const updateSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, numberBank = ?, idBank = ? WHERE idCardWorker = ?';
+    const updateImageSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, photo = ?, numberBank = ?, idBank = ? WHERE idCardWorker = ?';
+
+    const sql = photo ? updateImageSql : updateSql;
+    const params = photo ? [workerName, workerLastName, workerEmail, workerPhone, userName, hashedPassword, photo, numberBank, idBank, idCardWorker] : [workerName, workerLastName, workerEmail, workerPhone, userName, hashedPassword, numberBank, idBank, idCardWorker];
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
 }
 
 module.exports = new WorkerModel();
