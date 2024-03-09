@@ -1,13 +1,13 @@
 const express = require('express')
 
 //Routes
-const sing_in = require('./components/sing-in/sing-in.routes')
-const products = require('./components/products/product.routes')
-const worker = require('./components/worker/worker.routes')
-const client = require('./components/forms/buyer/buyer.routes')
-const formWorkers = require('./components/forms/workers/formWorkers.routes')
-const formProducts = require('./components/forms/products/formProducts.routes')
-const orders = require('./components/orders/order.routes')
+const sing_in = require('./controllers/sing-in/sing-in.routes')
+const products = require('./controllers/products/product.routes')
+const worker = require('./controllers/worker/worker.routes')
+const client = require('./controllers/forms/buyer/buyer.routes')
+const formWorkers = require('./controllers/forms/workers/formWorkers.routes')
+const formProducts = require('./controllers/forms/products/formProducts.routes')
+const orders = require('./controllers/orders/order.routes')
 
 //Combined Routes
 const combinedRoutes = express.Router()
