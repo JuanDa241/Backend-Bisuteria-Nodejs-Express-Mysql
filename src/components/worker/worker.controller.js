@@ -120,19 +120,22 @@ const createworker = async (req, res) => {
 };
 
 //Actualizar un registro
-const updateworker = (req, res) => {
+const updateworker = async (req, res) => {
 	const { idCardWorker } = req.params;
 	const { workerName, workerLastName, workerEmail, workerPhone, userName, password, numberBank, idBank } = req.body;
 	const photo = req.file ? req.file.path : null;
 
 	try {
+		// Hashear la nueva contraseña antes de actualizarla
+		const hashedPassword = await hashPassword(password);
+
 		const updateSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, numberBank = ?, idBank =? WHERE idCardWorker = ?';
 
 		const updateImageSql = 'UPDATE worker SET workerName = ?, workerLastName = ?, workerEmail = ?, workerPhone = ?, userName = ?, password = ?, photo = ?, numberBank = ?, idBank = ? WHERE idCardWorker = ?';
 
 		const sql = req.file ? updateImageSql : updateSql;
 
-		const params = req.file ? [workerName, workerLastName,workerEmail, workerPhone, userName, password, photo, numberBank, idBank, idCardWorker] : [workerName, workerLastName,workerEmail, workerPhone, userName, password, numberBank, idBank, idCardWorker]
+		const params = req.file ? [workerName, workerLastName,workerEmail, workerPhone, userName, password, photo, numberBank, idBank, idCardWorker] : [workerName, workerLastName,workerEmail, workerPhone, userName, hashedPassword, numberBank, idBank, idCardWorker]
 
 		db.query(sql, params, (err, result) => {
 			if (err) {
