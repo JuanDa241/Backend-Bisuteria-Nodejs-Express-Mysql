@@ -1,7 +1,7 @@
+const db = require('../../dataBase/db');
 const { hashPassword } = require('../../config/bcrypt');
-const db = require('../../dataBase/db')
 
-//Clase que controlara todas las peticiones del trabajador
+//Clase que controlará todas las peticiones del trabajador
 class WorkerModel {
 
   //Modelo para insertar un nuevo trabajador a la base de datos
@@ -63,7 +63,7 @@ class WorkerModel {
   //Modelo para activar o desactivar un trabajador
   async activateInactiveWorker(idCardWorker, idState) {
     return new Promise((resolve, reject) => {
-      const sql = 'UPDATE worker SET idState = ? WHERE idCardWorker =?';
+      const sql = 'UPDATE worker SET idState = ? WHERE idCardWorker = ?';
       db.query(sql, [idState, idCardWorker], (err, result) => {
         if (err) {
           reject(err);
@@ -98,7 +98,7 @@ class WorkerModel {
         }
       });
     });
-  }
+  };
 }
 
 module.exports = new WorkerModel();

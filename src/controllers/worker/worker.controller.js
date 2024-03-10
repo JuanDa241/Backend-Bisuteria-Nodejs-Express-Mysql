@@ -1,24 +1,19 @@
-const db = require('../../dataBase/db')
 const WorkerModel = require('../../models/worker/worker.model')
 const { hashPassword } = require('../../config/bcrypt');
 
 //Obtener todos los trabajadores activos o inactivos
-async function getActivateInactiveWorker(req, res) {
+async function getActivateInactiveWorker(req,res) {
 	try {
 		const { idState } = req.params;
 		const result = await WorkerModel.getActivateInactiveWorker(idState);
-		if (result.length < 1){
-			res.json({ data: 'Error no found worker' });
-		} else {
-			res.json({ data: result });
-    }
+		res.json({ data: result });
 	} catch (err) {
 		console.log({ data: `Internal Server Error: ${err}` });
 	}
 };
 
 //Controlador para mostrar la informacion de un trabajador
-async function getWorker(req, res) {
+async function getWorker(req,res) {
 	try {
 		const { idCardWorker } = req.params;
 		const infoWorker = await WorkerModel.getWorker(idCardWorker);
@@ -33,7 +28,7 @@ async function getWorker(req, res) {
 }
 
 //Controlador para obtener el perfil de un trabjador
-async function profile(req, res) {
+async function profile(req,res) {
 	try {
 		const { idCardWorker } = req.params;
 		const workerProfile = await WorkerModel.getProfileWorker(idCardWorker);
@@ -48,7 +43,7 @@ async function profile(req, res) {
 };
 
 //Controlador para insertar un nuevo trabajador a la base de datos
-async function createWorker(req, res) {
+async function createWorker(req,res) {
 	try {
 		const { idCardWorker, workerName, workerLastName, workerEmail, workerPhone, userName, password, idRole, numberBank, idBank } = req.body;
 		const photo = req.file ? req.file.path : null;
@@ -80,7 +75,7 @@ async function createWorker(req, res) {
 }
 
 //Actualizar la informacion de un trabajador
-const updateWorker = async (req, res) => {
+const updateWorker = async (req,res) => {
 	const { idCardWorker } = req.params;
 	const workerData = req.body;
 	const photo = req.file ? req.file.path : null;
@@ -98,7 +93,7 @@ const updateWorker = async (req, res) => {
 };
 
 //Controlador que activa o inactiva un trabajador
-const activateInactiveWorker = (req, res) => {
+const activateInactiveWorker = (req,res) => {
 	try {
 		const { idCardWorker, idState } = req.params
 		const result = WorkerModel.activateInactiveWorker(idCardWorker, idState);
