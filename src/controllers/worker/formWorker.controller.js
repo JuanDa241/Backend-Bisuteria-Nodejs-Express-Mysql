@@ -1,4 +1,4 @@
-const FormWorkerModel = require("../../models/worker/formWorker");
+const FormWorkerModel = require("../../models/worker/formWorker.model");
 
 //Controlador para mostrar el rol de artesano y vendedor
 async function getSellerCrastman(req, res) {

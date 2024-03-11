@@ -1,4 +1,4 @@
-const FormProduct = require("../../models/products/formProduct");
+const FormProduct = require("../../models/products/formProduct.model");
 
 //Controlador para mostrar todas las categorias de los productos
 async function getAllCategory(req, res) {
