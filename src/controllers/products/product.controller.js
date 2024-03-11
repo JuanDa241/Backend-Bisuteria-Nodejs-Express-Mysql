@@ -1,8 +1,7 @@
-const db = require('../../dataBase/db')
-const ids = require('../../config/ids');
 const ProductModel = require('../../models/products/product.model');
+const ids = require('../../config/ids');
 
-//Obtener todos los productos activos
+//Controlador para obtener todos los productos según su estado
 async function getActivateInactiveProduct(req, res) {
 	try {
 		const { idState } = req.params;
@@ -13,25 +12,18 @@ async function getActivateInactiveProduct(req, res) {
 	}
 }
 
-//Obtener un detalle
-const getProduct = (req, res) => {
-	const { idProduct } = req.params;
-
+//Controlador para obtener la información de un producto según si id
+async function getProduct(req, res) {
 	try {
-		let sql = 'SELECT * FROM products WHERE idProduct = ?';
-		db.query(sql, idProduct, (err, rows, field) => {
-			if (!err) {
-				if (rows.length < 1) {
-					res.json({ data: `Error no found products` })
-				} else {
-					res.json({ data: rows })
-				}
-			} else {
-				throw err
-			}
-		});
+		const { idProduct } = req.params;
+		const result = await ProductModel.getProduct(idProduct);
+		if (result.length < 1) {
+			res.json({ data: 'Error no found product' });
+		} else {
+			res.json({ data: result });
+		}
 	} catch (err) {
-		console.log({ data: `Internal Server Error: ${err}` })
+		console.log({ data: `Internal Server Error: ${err}` });
 	}
 };
 
@@ -74,33 +66,21 @@ async function createProduct(req, res) {
 };
 
 //Actualizar un registro
-const updateProduct = (req, res) => {
-	const { idProduct } = req.params
-	const { nameProduct, price, laborPrice, idCategory } = req.body;
-	const image = req.file ? req.file.path : null
+async function updateProduct(req, res) {
+	const { idProduct } = req.params;
+	const productData = req.body;
+	const image = req.file ? req.file.path : null;
 
 	try {
-		const updateSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, idCategory = ? WHERE idProduct = ?';
-
-		const updateImageSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, image = ?, idCategory = ? WHERE idProduct = ?';
-
-		const sql = req.file ? updateImageSql : updateSql;
-
-		const params = req.file ? [nameProduct, price, laborPrice, image, idCategory, idProduct] : [nameProduct, price, laborPrice, idCategory, idProduct];
-
-		db.query(sql, params, (err, result) => {
-			if (err) {
-				throw err;
-			} else {
-				if (result.affectedRows === 0) {
-					res.json({ data: `Error: Product with ID ${idProduct} not found` });
-				} else {
-					res.json({ data: `Product with ID ${idProduct} has been updated successfully` });
-				}
-			}
-		});
+		const result = await ProductModel.updateProduct(idProduct, productData, image);
+		if (result.affectedRows === 0) {
+			res.json({ data: `Error: Product with ID ${idProduct} not found` });
+		} else {
+			res.json({ data: `Product with ID ${idProduct} has been updated successfully` });
+		}
 	} catch (error) {
-		console.log({ data: `Internal Server Error: ${error}` });
+		console.error(error);
+		res.status(500).json({ error: 'Internal Server Error', details: error.message });
 	};
 };
 

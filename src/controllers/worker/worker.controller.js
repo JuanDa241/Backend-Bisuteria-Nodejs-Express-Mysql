@@ -75,37 +75,37 @@ async function createWorker(req,res) {
 }
 
 //Actualizar la informacion de un trabajador
-const updateWorker = async (req,res) => {
+async function updateWorker(req, res) {
 	const { idCardWorker } = req.params;
 	const workerData = req.body;
 	const photo = req.file ? req.file.path : null;
 
 	try {
-		const result = await WorkerModel.updateWorker(idCardWorker, workerData, photo)
+		const result = await WorkerModel.updateWorker(idCardWorker, workerData, photo);
 		if (result.affectedRows === 0) {
-      res.json({ data: `Error: worker with ID ${idCardWorker} not found` });
-    } else {
-      res.json({ data: `Worker with ID ${idCardWorker} has been updated successfully` });
-    }
+			res.json({ data: `Error: worker with ID ${idCardWorker} not found` });
+		} else {
+			res.json({ data: `Worker with ID ${idCardWorker} has been updated successfully` });
+		}
 	} catch (error) {
 		console.log({ data: `Internal Server Error: ${error}` });
 	}
-};
+}
 
 //Controlador que activa o inactiva un trabajador
-const activateInactiveWorker = (req,res) => {
+async function activateInactiveWorker(req, res) {
 	try {
-		const { idCardWorker, idState } = req.params
-		const result = WorkerModel.activateInactiveWorker(idCardWorker, idState);
+		const { idCardWorker, idState } = req.params;
+		const result = await WorkerModel.activateInactiveWorker(idCardWorker, idState);
 		if (result.affectedRows === 0) {
 			res.json({ data: 'Error' });
 		} else {
-      res.json({ data: result });
-    }
+			res.json({ data: result });
+		}
 	} catch (err) {
-		console.log({ data: `Internal Server Error: ${err}` })
+		console.log({ data: `Internal Server Error: ${err}` });
 	}
-};
+}
 
 module.exports = {
 	getActivateInactiveWorker,

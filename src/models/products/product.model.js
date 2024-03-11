@@ -30,6 +30,20 @@ class ProductModel {
     });
   };
 
+  //Modelo para obtener la información de un producto
+  async getProduct(idProduct){
+    return new Promise((resolve, reject) => {
+      const sql = 'SELECT * FROM products WHERE idProduct = ?';
+      db.query(sql, idProduct, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
   //Modelo para activar o desactivar un producto
   async activateInactiveProduct(idProduct, idState) {
     return new Promise((resolve, reject) => {
@@ -43,6 +57,27 @@ class ProductModel {
           } else {
             resolve({ message: `Se ha actualizado el estado del producto con ID: ${idProduct}` });
           }
+        }
+      });
+    });
+  };
+
+  //Modelo para actualizar la información de un producto
+  async updateProduct(idProduct, productData, image) {
+    const { nameProduct, price, laborPrice, idCategory } = productData;
+
+    const updateSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, idCategory = ? WHERE idProduct = ?';
+		const updateImageSql = 'UPDATE products SET nameProduct = ?, price = ?, laborPrice = ?, image = ?, idCategory = ? WHERE idProduct = ?';
+
+		const sql = image ? updateImageSql : updateSql;
+		const params = image ? [nameProduct, price, laborPrice, image, idCategory, idProduct] : [nameProduct, price, laborPrice, idCategory, idProduct];
+
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
         }
       });
     });
