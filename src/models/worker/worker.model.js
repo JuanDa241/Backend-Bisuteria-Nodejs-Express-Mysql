@@ -3,7 +3,6 @@ const { hashPassword } = require('../../config/bcrypt');
 
 //Clase que controlará todas las peticiones del trabajador
 class WorkerModel {
-
   //Modelo para insertar un nuevo trabajador a la base de datos
   async createWorker(infoWorker) {
     return new Promise((resolve, reject) => {
