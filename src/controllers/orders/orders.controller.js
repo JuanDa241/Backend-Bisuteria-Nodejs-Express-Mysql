@@ -1,37 +1,37 @@
-const db = require('../../dataBase/db')
-const ids = require('../../config/ids')
+const OrderModel = require('../../models/orders/order.model');
+const ids = require('../../config/ids');
 
 //Insertar una orden
-function createOrder(req, res) {
-  const { idCardClient, idCardWorker ,  idState } = req.body;
-  const table = 'orders';
-  const condicion = 'idOrder';
-
-  ids(table, condicion, (idOrder, err) => {
-    if (err) {
-      console.log({ data: `error id: ${err}` });
-    };
-    const order = {
-      idOrder: idOrder,
-      idCardClient: idCardClient,
-      idCardWorker: idCardWorker,
-      idState: idState
-    };
-
-    try {
-      const sql = 'INSERT INTO orders(idOrder, idCardClient, idCardWorker, idState) VALUES (?,?,?,?)';
-      db.query(sql, [order.idOrder, order.idCardClient, order.idCardWorker, order.idState], (err, result) => {
-        if (err) {
-          throw err;
-        } else {
-          res.json({ data: result });
-        }
-      });
-    } catch (error) {
-      console.log({ data: `Internal Server Error: ${err}` });
-    }
-  });
-}
+async function createOrder(req, res) {
+  try {
+    const { idCardWorker, total } = req.body;
+    const table = 'orders';
+    const condicion = 'idOrder';
+  
+    ids(table, condicion, async (idOrder, err) => {
+      if (err) {
+        console.log({ data: `error id: ${err}` });
+        return res.status(500).json({ error: 'Internal Server Error' });
+      };
+      const infoOrder = {
+        idOrder: idOrder,
+        idCardWorker: idCardWorker,
+        total: total,
+        idState: "1"
+      };
+  
+      try {
+        const result = await OrderModel.createOrder(infoOrder);
+        res.json(result)
+      } catch (error) {
+        console.log({ data: `Internal Server Error1: ${error}` });
+      }
+    });
+  } catch (error) {
+    console.log({ data: `Internal Server Error2: ${error}` });
+		res.status(500).json({ error: 'Internal Server Error3' });
+  }
+};
 
 module.exports = {
   createOrder,
