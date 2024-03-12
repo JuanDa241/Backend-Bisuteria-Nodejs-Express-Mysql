@@ -4,7 +4,7 @@ const express = require('express')
 const sing_in = require('./controllers/sing-in/sing-in.routes')
 const products = require('./controllers/products/product.routes')
 const worker = require('./controllers/worker/worker.routes')
-const client = require('./controllers/forms/buyer/buyer.routes')
+const client = require('./controllers/client/client.routes')
 const orders = require('./controllers/orders/order.routes')
 
 //Combined Routes
