@@ -83,12 +83,13 @@ async function updateWorker(req, res) {
 	try {
 		const result = await WorkerModel.updateWorker(idCardWorker, workerData, photo);
 		if (result.affectedRows === 0) {
-			res.json({ data: `Error: worker with ID ${idCardWorker} not found` });
+			res.status(404).json({ error: `Error: worker with ID ${idCardWorker} not found` });
 		} else {
 			res.json({ data: `Worker with ID ${idCardWorker} has been updated successfully` });
 		}
 	} catch (error) {
 		console.log({ data: `Internal Server Error: ${error}` });
+		res.status(500).json({ error: `Internal Server Error: ${error}` });
 	}
 }
 

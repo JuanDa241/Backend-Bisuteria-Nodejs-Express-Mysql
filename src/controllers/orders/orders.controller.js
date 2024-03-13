@@ -1,7 +1,7 @@
 const OrderModel = require('../../models/orders/order.model');
 const ids = require('../../config/ids');
 
-//Insertar una orden
+//Controlador para crear una orden
 async function createOrder(req, res) {
   try {
     const { idCardWorker, total } = req.body;
