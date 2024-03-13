@@ -1,6 +1,6 @@
-const app = require('./src/app')
+const { app, server } = require('./src/app')
 
-app.listen(app.get('port'),(err) =>{
+server.listen(app.get('port'),(err) =>{
     if(err){
         console.log(`Error startting the server: ${err}`)
     } else {

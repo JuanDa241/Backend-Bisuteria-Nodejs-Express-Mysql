@@ -1,9 +1,9 @@
 const express = require('express')
-const path = require('path')
 const cors = require('cors')
+const {Server} = require('socket.io')
+const http = require('http');
 require('dotenv').config();
 const { urlencoded, json } = require('express')
-const bodyParser = require('body-parser');
 const combinedRoutes = require('./route.routes');
 
 //Port
@@ -11,7 +11,16 @@ const port = process.env.PORT || 4141
 
 //Server initialization
 const app = express()
+const server = http.createServer(app);
 
+//Inicialización de Socket
+const io = new Server(server, {
+  cors : {
+    origin: '*'
+  }
+})
+
+//Uso de los archivos estaticos del proyecto
 app.use('/IRis/uploads', express.static('uploads'));
 
 //setting
@@ -25,5 +34,4 @@ app.use(json())
 //Route
 app.use('/IRis', combinedRoutes)
 
-
-module.exports = app
+module.exports = { app, server, io };
