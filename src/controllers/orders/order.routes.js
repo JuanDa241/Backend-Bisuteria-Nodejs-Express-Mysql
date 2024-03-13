@@ -4,6 +4,7 @@ const router = express.Router();
 
 
 router
+      //Ruta para crear una orden en la base de datos
       .post('/orden', createOrder)
 
 module.exports = router;
