@@ -4,7 +4,7 @@ const ids = require('../../config/ids');
 //Controlador para crear una orden
 async function createOrder(req, res) {
   try {
-    const { idCardWorker, total } = req.body;
+    const { idCardWorker, total, idCardClient } = req.body;
     const table = 'orders';
     const condicion = 'idOrder';
   
@@ -17,7 +17,8 @@ async function createOrder(req, res) {
         idOrder: idOrder,
         idCardWorker: idCardWorker,
         total: total,
-        idState: "1"
+        idState: "1",
+        idCardClient: idCardClient
       };
   
       try {
@@ -33,6 +34,18 @@ async function createOrder(req, res) {
   }
 };
 
+//Controlador para obtener todos los pedidos según su estado
+async function getOrderState(req,res) {
+  try {
+    const { idState } = req.params;
+    const result = await OrderModel.getOrderState(idState);
+    res.json({ data: result });
+  } catch (error) {
+    console.log({ data: `Internal Server Error Order: ${err}` });
+  }
+};
+
 module.exports = {
   createOrder,
+  getOrderState,
 }

@@ -8,7 +8,7 @@ async function getActivateInactiveWorker(req,res) {
 		const result = await WorkerModel.getActivateInactiveWorker(idState);
 		res.json({ data: result });
 	} catch (err) {
-		console.log({ data: `Internal Server Error: ${err}` });
+		console.log({ data: `Internal Server Error Worker: ${err}` });
 	}
 };
 
