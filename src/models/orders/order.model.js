@@ -20,18 +20,15 @@ class OrderModel {
                 reject(new Error('No se encontró ninguna orden que coincida con los criterios especificados.'));
                 return;
               }
-
               const orderId = rows[0].idOrder;
-              console.log('ID de la última orden insertada:', orderId);
-
               // Insertar en la tabla orderClient con el ID de la última orden
-              const detalleSql = 'INSERT INTO orderClient(idOrder, idCardClient) VALUES (?,?)';
-              const detalleValues = [orderId, idCardClient];
-              db.query(detalleSql, detalleValues, (err, detalleResult) => {
+              const detailSql = 'INSERT INTO orderClient(idOrder, idCardClient) VALUES (?,?)';
+              const detailValues = [orderId, idCardClient];
+              db.query(detailSql, detailValues, (err, detailResult) => {
                 if (err) {
                   reject(err);
                 } else {
-                  resolve(detalleResult);
+                  resolve(detailResult);
                 }
               });
             }
@@ -44,7 +41,7 @@ class OrderModel {
   //Modelo para obtener los pedidos según su estado
   async getOrderState(idState) {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM orders WHERE idState = ?';
+      const sql = 'SELECT C.clientname, DATE_FORMAT(O.orderDate, "%Y-%m-%d") AS Date, O.idOrder FROM orders O inner join orderClient OC on O.idOrder=OC.idOrder join client C on OC.idCardClient=C.idCardClient WHERE idState = ?';
       db.query(sql, idState, (err, result) => {
         if (err) {
           reject(err);
