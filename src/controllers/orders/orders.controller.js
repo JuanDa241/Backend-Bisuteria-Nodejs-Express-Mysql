@@ -46,7 +46,18 @@ async function getOrderState(req,res) {
   }
 };
 
+async function getOrderStateIdCard(req,res) {
+  try {
+    const { idState, idCardWorker } = req.params;
+    const result = await OrderModel.getOrderStateIdCard(idState, idCardWorker);
+    res.json({ data: result });
+  } catch (error) {
+    console.log({ data: `Internal Server Error Order: ${err}` });
+  }
+};
+
 module.exports = {
   createOrder,
   getOrderState,
+  getOrderStateIdCard,
 }
