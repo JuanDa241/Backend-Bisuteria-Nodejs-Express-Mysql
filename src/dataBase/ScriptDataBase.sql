@@ -20,11 +20,11 @@ create table state(
 );
 
 insert into state (states)
-	values('Creado'),('En proceso'),('Terminado'),('Activo'),('Inactivo');
+	values('Creado'),('En proceso'),('Terminado'),('Activo'),('Inactivo'),('Cancelado');
     
 create table products(
 	idProduct varchar(50) not null unique,
-    nameProduct varchar(25) not null,
+    nameProduct varchar(50) not null,
     price int not null,
     laborPrice int not null,
     image varchar(250) not null,
@@ -59,7 +59,7 @@ create table worker(
     workerLastName varchar(50) not null,
     workerEmail varchar(100) not null,
     workerPhone varchar(15) not null,
-    userName varchar(20) not null unique,
+    userName varchar(30) not null unique,
     password varchar(300) not null,
     photo varchar(250) not null,
     idRole int not null,
