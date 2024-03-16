@@ -38,14 +38,10 @@ class FormWorkerModel {
     return new Promise((resolve, reject) => {
       const sql = 'SELECT idCardWorker, workerName, workerLastName, photo FROM worker WHERE idRole = 2 AND idState = 4'
       db.query(sql, (err, result) => {
-        if (!err) {
-          if (result.length < 1) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
+        if (err) {
+          reject(err);
         } else {
-          throw err
+          resolve(result);
         }
       });
     });

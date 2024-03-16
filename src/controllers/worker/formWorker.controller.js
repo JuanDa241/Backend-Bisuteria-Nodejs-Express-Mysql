@@ -10,6 +10,7 @@ async function getSellerCrastman(req, res) {
   };
 };
 
+//Controlador para mostrar todos los bancos
 async function getBank(req, res) {
   try {
     const result = await FormWorkerModel.getBank();
@@ -19,14 +20,15 @@ async function getBank(req, res) {
   };
 };
 
+//Controlador para mostrar todos los trabajadores con rol de artesano activos
 async function getCrastman(req, res) {
   try {
     const result = await FormWorkerModel.getCrastman();
     res.json({ data: result })
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
-  }
-}
+  };
+};
 
 module.exports = {
   getSellerCrastman,

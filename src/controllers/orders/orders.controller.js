@@ -41,8 +41,8 @@ async function getOrderState(req,res) {
     const { idState } = req.params;
     const result = await OrderModel.getOrderState(idState);
     res.json({ data: result });
-  } catch (error) {
-    console.log({ data: `Internal Server Error Order: ${err}` });
+  } catch (err) {
+    console.log({ data: `Internal Server Error getOrderState: ${err}` });
   }
 };
 
@@ -51,8 +51,8 @@ async function getOrderStateIdCard(req,res) {
     const { idState, idCardWorker } = req.params;
     const result = await OrderModel.getOrderStateIdCard(idState, idCardWorker);
     res.json({ data: result });
-  } catch (error) {
-    console.log({ data: `Internal Server Error Order: ${err}` });
+  } catch (err) {
+    console.log({ data: `Internal Server Error getOrderStateId: ${err}` });
   }
 };
 
