@@ -85,6 +85,7 @@ create table orders(
     idCardWorker int not null,
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total int not null,
+    quantityProducts int not null,
     idState int not null,
     primary key (idorder),
     foreign key (idCardWorker) references worker(idCardWorker),
