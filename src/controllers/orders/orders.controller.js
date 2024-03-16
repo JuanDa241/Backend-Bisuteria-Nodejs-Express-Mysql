@@ -4,7 +4,7 @@ const ids = require('../../config/ids');
 //Controlador para crear una orden
 async function createOrder(req, res) {
   try {
-    const { idCardWorker, total, idCardClient } = req.body;
+    const { idCardWorker, total, quantityProducts, idCardClient } = req.body;
     const table = 'orders';
     const condicion = 'idOrder';
   
@@ -17,6 +17,7 @@ async function createOrder(req, res) {
         idOrder: idOrder,
         idCardWorker: idCardWorker,
         total: total,
+        quantityProducts: quantityProducts,
         idState: "1",
         idCardClient: idCardClient
       };

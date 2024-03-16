@@ -4,9 +4,9 @@ class OrderModel {
   //Modelo para crear una orden nueva y la ordencliente en la base de datos
   async createOrder(infoOrder) {
     return new Promise((resolve, reject) => {
-      const { idOrder, idCardWorker, total, idState, idCardClient } = infoOrder;
-      const sql = 'INSERT INTO orders(idOrder, idCardWorker, total, idState) VALUES (?,?,?,?)';
-      db.query(sql, [idOrder, idCardWorker, total, idState], (err, result) => {
+      const { idOrder, idCardWorker, total, idState, quantityProducts, idCardClient } = infoOrder;
+      const sql = 'INSERT INTO orders(idOrder, idCardWorker, total, quantityProducts, idState) VALUES (?,?,?,?,?)';
+      db.query(sql, [idOrder, idCardWorker, total, quantityProducts, idState], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -41,7 +41,7 @@ class OrderModel {
   //Modelo para obtener los pedidos según su estado
   async getOrderState(idState) {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT C.clientname, DATE_FORMAT(O.orderDate, "%Y-%m-%d") AS Date, O.idOrder FROM orders O inner join orderClient OC on O.idOrder=OC.idOrder join client C on OC.idCardClient=C.idCardClient WHERE idState = ?';
+      const sql = 'SELECT C.clientname, DATE_FORMAT(O.orderDate, "%Y-%m-%d") AS Date, O.idOrder, O.quantityProducts FROM orders O inner join orderClient OC on O.idOrder=OC.idOrder join client C on OC.idCardClient=C.idCardClient WHERE idState = ?';
       db.query(sql, idState, (err, result) => {
         if (err) {
           reject(err);
