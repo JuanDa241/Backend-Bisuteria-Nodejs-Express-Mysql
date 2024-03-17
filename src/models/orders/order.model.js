@@ -4,7 +4,7 @@ class OrderModel {
   //Modelo para crear una orden nueva y la ordencliente en la base de datos
   async createOrder(infoOrder) {
     return new Promise((resolve, reject) => {
-      const { idOrder, idCardWorker, total, idState, quantityProducts, idCardClient } = infoOrder;
+      const { idOrder, idCardWorker, total, idState, quantityProducts, idCardClient, details } = infoOrder;
       const sql = 'INSERT INTO orders(idOrder, idCardWorker, total, quantityProducts, idState) VALUES (?,?,?,?,?)';
       db.query(sql, [idOrder, idCardWorker, total, quantityProducts, idState], (err, result) => {
         if (err) {
@@ -28,7 +28,15 @@ class OrderModel {
                 if (err) {
                   reject(err);
                 } else {
-                  resolve(detailResult);
+                  const detailOrderSql = 'INSERT INTO orderDetail(quantity, subTotal, idProduct, idOrder) VALUES ?';
+                  const detailOrderValues = details.map(detail => [detail.quantity, detail.subTotal, detail.idProduct,orderId]);
+                  db.query(detailOrderSql, [detailOrderValues], (err, result) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(result);
+                    }
+                  });
                 }
               });
             }
