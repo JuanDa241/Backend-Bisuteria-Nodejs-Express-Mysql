@@ -88,7 +88,6 @@ async function updateProduct(req, res) {
 async function activateInactiveProduct(req, res) {
 	try {
 		const { idProduct, idState } = req.params;
-
 		const result = await ProductModel.activateInactiveProduct(idProduct, idState);
 		if (result.affectedRows === 0) {
 			res.json({ data: 'Error' });

@@ -11,7 +11,7 @@ async function createOrder(req, res) {
     ids(table, condicion, async (idOrder, err) => {
       if (err) {
         console.log({ data: `error id: ${err}` });
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Internal Server Error (createOrder1)' });
       };
       const infoOrder = {
         idOrder: idOrder,
@@ -27,12 +27,12 @@ async function createOrder(req, res) {
         const result = await OrderModel.createOrder(infoOrder);
         res.json(result)
       } catch (error) {
-        console.log({ data: `Internal Server Error1: ${error}` });
+        console.log({ data: `Internal Server Error (createOrder2): ${error}` });
       }
     });
   } catch (error) {
     console.log({ data: `Internal Server Error2: ${error}` });
-		res.status(500).json({ error: 'Internal Server Error3' });
+		res.status(500).json({ error: 'Internal Server Error (createOrder3)' });
   }
 };
 
@@ -43,22 +43,38 @@ async function getOrderState(req,res) {
     const result = await OrderModel.getOrderState(idState);
     res.json({ data: result });
   } catch (err) {
-    console.log({ data: `Internal Server Error getOrderState: ${err}` });
+    console.log({ data: `Internal Server Error (getOrderState): ${err}` });
   }
 };
 
+//Controlador para obtener una orden segun su estado y el id del trabajador
 async function getOrderStateIdCard(req,res) {
   try {
     const { idState, idCardWorker } = req.params;
     const result = await OrderModel.getOrderStateIdCard(idState, idCardWorker);
     res.json({ data: result });
   } catch (err) {
-    console.log({ data: `Internal Server Error getOrderStateId: ${err}` });
+    console.log({ data: `Internal Server Error (getOrderStateId): ${err}` });
   }
 };
+
+async function cancelOrder(req,res) {
+  try {
+    const { idOrder, idState } = req.params;
+    const result = await OrderModel.cancelOrder(idOrder, idState);
+    if (result.affectedRows === 0) {
+			res.json({ data: 'Error' });
+		} else {
+			res.json({ data: result });
+		}
+  } catch (err) {
+    console.log({ data: `Internal Server Error (cancelOrder): ${err}` });
+  }
+}
 
 module.exports = {
   createOrder,
   getOrderState,
   getOrderStateIdCard,
+  cancelOrder
 }

@@ -74,6 +74,24 @@ class OrderModel {
     });
   };
 
+  //Modelo para cambiar el estado de una order
+  async cancelOrder(idOrder, idState) {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE orders SET idState = ? WHERE idOrder = ?';
+      db.query(sql, [idState, idOrder], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (result.affectedRows === 0) {
+            reject({ message: `No se encontró ningún producto con ID: ${idOrder}` });
+          } else {
+            resolve({ message: `Se ha actualizado el estado del producto con ID: ${idOrder}` });
+          }
+        }
+      });
+    });
+  };
+
 }
 
 module.exports = new OrderModel();
