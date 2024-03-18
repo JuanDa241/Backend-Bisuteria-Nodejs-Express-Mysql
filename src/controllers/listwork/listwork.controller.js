@@ -20,6 +20,22 @@ async function createListwork(req, res) {
   };
 };
 
+async function getListwork(req, res) {
+  try {
+    const { idWorkList } = req.params;
+    const listworkInfo = await ListworkModel.getListwork(idWorkList);
+    if (infoClient.length < 1) {
+      res.json()
+    } else {
+      res.json({ data: listworkInfo });
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  };
+};
+
 module.exports = {
-    createListwork
+    createListwork,
+    getListwork
 }
