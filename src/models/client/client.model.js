@@ -30,6 +30,7 @@ class ClientModel {
     });
   };
 
+  //Modelo para actualizar la información de un cliente
   async updateClient(idCardClient, infoClient) {
     return new Promise((resolve, reject) => {
       const sql = 'UPDATE client SET clientname = ?, clientAddress = ?, clientPhone = ? WHERE idCardClient = ?';
@@ -42,6 +43,20 @@ class ClientModel {
           } else {
             resolve({ message: `Se ha actualizado el estado del producto con ID: ${idCardClient}` });
           }
+        }
+      });
+    });
+  };
+
+  //Modelo para obtener un cliente según el idOrder
+  async getClientIdOrder(idOrder) {
+    return new Promise((resolve, reject) => {
+      const sql = 'SELECT C.idCardClient, C.clientname, C.clientAddress, C.clientPhone FROM orderClient OC inner join client C on OC.idCardClient=C.idCardClient WHERE idOrder = ?'
+      db.query(sql, idOrder, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
         }
       });
     });

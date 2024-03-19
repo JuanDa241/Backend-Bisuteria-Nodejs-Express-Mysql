@@ -31,7 +31,23 @@ async function getClient(req, res) {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error (getClient)' });
+  };
+};
+
+//Controlador para obtener la informacón de un cliente según el idOrder
+async function getClientIdOrder(req, res) {
+  try {
+    const { idOrder } = req.params;
+    const infoClient = await ClientModel.getClientIdOrder(idOrder);
+    if (infoClient.length < 1) {
+      res.json()
+    } else {
+      res.json({ data: infoClient });
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Internal Server Error (getClientIdOrder)' });
   };
 };
 
@@ -55,5 +71,6 @@ async function updateClient(req, res) {
 module.exports = {
   createClient,
   getClient,
+  getClientIdOrder,
   updateClient
 }
